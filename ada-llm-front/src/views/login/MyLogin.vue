@@ -346,6 +346,7 @@ button:hover {
 import { ref, toRefs } from 'vue';
 import { toRefs as _toRefs } from '@vue/reactivity';
 import { useRouter } from 'vue-router'; // 导入 useRouter
+import { ElNotification } from 'element-plus';
 
 const preRef = ref(null);
 const flag = ref(false);
@@ -392,11 +393,30 @@ const loginRules = ref({
 const router = useRouter(); // 使用 useRouter 钩子
 const handleLogin = () => {
   // 登录逻辑
-  router.push('/chat'); // 跳转到 login 路由
+  // 假设登录逻辑成功后执行以下代码
+  ElNotification({
+    title: '成功',
+    message: '登录成功',
+    type: 'success',
+    duration: 3000 // 通知显示时长，单位为毫秒
+  });
+  // 等待 0.3 秒后跳转到 chat 路由
+  setTimeout(() => {
+    router.push('/chat'); // 跳转到 chat 路由
+  }, 300);
+  // router.push('/chat'); // 跳转到 login 路由
 };
 
 const handleRegister = () => {
   // 注册逻辑
+
+  // 假设注册逻辑成功后执行以下代码
+  ElNotification({
+    title: '成功',
+    message: '注册成功',
+    type: 'success',
+    duration: 3000 // 通知显示时长，单位为毫秒
+  });
 };
 
 const showPwd = () => {

@@ -1,7 +1,7 @@
 // settings.js
 
 export default {
-  title: '科途同行后台管理系统',
+  title: 'ustc智能助教',
   fixedHeader: false,
   sidebarLogo: false
 }

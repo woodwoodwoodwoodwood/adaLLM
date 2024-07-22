@@ -1,0 +1,89 @@
+二叉树（Binary Tree）是一种树形数据结构，其中每个节点最多有两个子节点，通常称为“左子节点”和“右子节点”。二叉树常用于实现二叉查找树和二叉堆等数据结构。
+
+二叉树的性质：
+1. 每个节点最多有两个子节点。
+2. 子节点分为左子节点和右子节点。
+3. 二叉树的第i层最多有2^i个节点。
+4. 深度为h的二叉树最多有2^h - 1个节点。
+5. 对于任意非空二叉树T，设n0表示叶节点数，n2表示度为2的节点数，则n0 = n2 + 1。
+
+二叉树的种类：
+1. 完全二叉树：除了最后一层，其他层的节点都完全填满，并且最后一层的节点尽可能靠左排列。
+2. 满二叉树：所有层的节点都完全填满。
+3. 平衡二叉树（AVL树）：任意节点的左右子树高度差不超过1的二叉树。
+4. 二叉查找树（BST）：任意节点的左子树的所有节点值小于该节点值，右子树的所有节点值大于该节点值。
+
+二叉树的遍历：
+1. 前序遍历（Pre-order）：先访问根节点，然后遍历左子树，最后遍历右子树。
+2. 中序遍历（In-order）：先遍历左子树，然后访问根节点，最后遍历右子树。
+3. 后序遍历（Post-order）：先遍历左子树，然后遍历右子树，最后访问根节点。
+4. 层次遍历（Level-order）：按层次从上到下、从左到右访问每个节点。
+
+C++实现二叉树的示例代码：
+
+```cpp
+#include <iostream>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class BinaryTree {
+public:
+    TreeNode* root;
+
+    BinaryTree() : root(NULL) {}
+
+    void insert(int key) {
+        if (root == NULL) {
+            root = new TreeNode(key);
+        } else {
+            insertRec(root, key);
+        }
+    }
+
+    void insertRec(TreeNode* node, int key) {
+        if (key < node->val) {
+            if (node->left == NULL) {
+                node->left = new TreeNode(key);
+            } else {
+                insertRec(node->left, key);
+            }
+        } else {
+            if (node->right == NULL) {
+                node->right = new TreeNode(key);
+            } else {
+                insertRec(node->right, key);
+            }
+        }
+    }
+
+    void inOrderTraversal(TreeNode* node) {
+        if (node != NULL) {
+            inOrderTraversal(node->left);
+            cout << node->val << " ";
+            inOrderTraversal(node->right);
+        }
+    }
+};
+
+int main() {
+    BinaryTree tree;
+    tree.insert(5);
+    tree.insert(3);
+    tree.insert(7);
+    tree.insert(2);
+    tree.insert(4);
+    tree.insert(6);
+    tree.insert(8);
+
+    cout << "In-order traversal: ";
+    tree.inOrderTraversal(tree.root);
+    cout << endl;
+
+    return 0;
+}

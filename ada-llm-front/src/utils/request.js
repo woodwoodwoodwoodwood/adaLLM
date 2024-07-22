@@ -1,14 +1,15 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-plus'
+import { ElMessageBox, ElMessage } from 'element-plus'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
 // 封装了Axios进行异步请求
 // create an axios instance
+
+// 创建 axios 实例
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  baseURL: import.meta.env.VITE_APP_BASE_API, // url = base url + request url
+  timeout: 120 * 1000 // 请求超时时间
 })
 
 // 拦截器
@@ -48,17 +49,17 @@ service.interceptors.response.use(
     const res = response.data
 
     // if the custom code is not 20000, it is judged as an error.
-    if (res.code !== 20000) {
-      Message({
+    if (res.success == true) {
+      ElMessage({
         message: res.message || 'Error',
         type: 'error',
-        duration: 5 * 1000
+        duration: 120 * 1000
       })
 
       // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
       if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
         // to re-login
-        MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
+        ElMessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
           confirmButtonText: 'Re-Login',
           cancelButtonText: 'Cancel',
           type: 'warning'
@@ -75,10 +76,10 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error) // for debug
-    Message({
+    ElMessage({
       message: error.message,
       type: 'error',
-      duration: 5 * 1000
+      duration: 120 * 1000
     })
     return Promise.reject(error)
   }
